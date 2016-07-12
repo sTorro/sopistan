@@ -49,6 +49,17 @@ public final class Map {
 	}
 
 	/**
+	 * TODO doc isSameChar
+	 * 
+	 * @param ch
+	 * @param pos
+	 * @return
+	 */
+	public boolean isSameCharAt(final char ch, final Position pos) {
+		return map[pos.getX()][pos.getY()] == ch;
+	}
+
+	/**
 	 * This method checks if the given word can be inserted (ignores other words, just boundaries!).
 	 * The input Word have to have a valid Direction and Position.
 	 * 
@@ -70,59 +81,27 @@ public final class Map {
 			switch (dir) {
 				case Up:
 					return Position.isYInsideBoundaries(pos.getY() + nChars);
-				// int up = pos.getY() + nChars;
-				// if (up >= Position.MIN_Y && up <= Position.MAX_Y) return true;
-				// break;
 
 				case Down:
 					return Position.isYInsideBoundaries(pos.getY() - nChars);
-				// int down = pos.getY() - nChars;
-				// if (down >= Position.MIN_Y && down <= Position.MAX_Y) return true;
-				// break;
 
 				case Left:
 					return Position.isXInsideBoundaries(pos.getX() - nChars);
-				// int left = pos.getX() - nChars;
-				// if (left >= Position.MIN_X && left <= Position.MAX_X) return true;
-				// if (pos.getX() - nChars <= Position.MAX_X) result = true;
-				// break;
 
 				case Right:
 					return Position.isXInsideBoundaries(pos.getX() + nChars);
-				// int right = pos.getX() + nChars;
-				// if (right >= Position.MIN_X && right <= Position.MAX_X) return true;
-				// if (pos.getX() + nChars <= Position.MAX_X) result = true;
-				// break;
 
 				case UpLeft:
 					return Position.isInsideBoundaries(pos.getX() - nChars, pos.getY() + nChars);
-				// int up2 = pos.getY() + nChars;
-				// int left2 = pos.getX() - nChars;
-				// if (up2 >= Position.MIN_Y && up2 <= Position.MAX_Y && left2 >= Position.MIN_X &&
-				// left2 <= Position.MAX_X)
-				// result = true;
-				// break;
 
 				case UpRight:
 					return Position.isInsideBoundaries(pos.getX() + nChars, pos.getY() + nChars);
-				// int up3 = pos.getY() + nChars;
-				// int right2 = pos.getX() + nChars;
-				// if (up3 >= 0 && up3 <= Position.MAX_Y && right2 >= Position.MIN_X && right2 <=
-				// Position.MAX_X)
-				// result = true;
-				// break;
 
 				case DownLeft:
 					return Position.isInsideBoundaries(pos.getX() - nChars, pos.getY() - nChars);
-				// if (pos.getY() - nChars <= Position.MAX_Y && pos.getX() - nChars <=
-				// Position.MAX_X) result = true;
-				// break;
 
 				case DownRight:
 					return Position.isInsideBoundaries(pos.getX() + nChars, pos.getY() - nChars);
-				// if (pos.getY() - nChars <= Position.MAX_Y && pos.getX() + nChars <=
-				// Position.MAX_X) result = true;
-				// break;
 
 				default: // not possible !
 					break;
@@ -177,10 +156,21 @@ public final class Map {
 					// Check inserted words
 					if (words.size() > 0) {
 						for (final Word insertedWord : words) {
-							if (!insertedWord.collides(input)) {
+							Position collision = insertedWord.collides(input);
+							if (collision == null) {
+								// no collision !
 								insertWord(input);
 								result = true;
 								break;
+							} else {
+								// check if the char is the same in the given position
+								// if (isSameCharAt(insertedWord.getChars(), collision)) {
+								// insertWord(input);
+								// result = true;
+								// break;
+								// }
+
+								System.out.println("COLLIDES !");
 							}
 						}
 					} else {
@@ -195,7 +185,12 @@ public final class Map {
 	}
 
 	private boolean insertWord(final Word input) {
-		final char[] chars = input.toString().toCharArray();
+		String word = input.toString();
+		if (Sopistan.DEBUG_MODE) {
+			word = isUpperCase() ? input.toString().toLowerCase() : input.toString().toUpperCase();
+		}
+
+		final char[] chars = word.toCharArray();
 		final Direction dir = input.getDirection();
 		final Position pos = input.getPosition();
 
@@ -271,5 +266,30 @@ public final class Map {
 			System.out.println(" ------------- ");
 		}
 		System.out.println("--------------------------");
+	}
+
+	/**
+	 * 
+	 * @param input
+	 * @return The p
+	 */
+	private Position getCollision(final Word input) {
+		Position result = null;
+
+		for (final Word w : words) {
+			// check same word ?
+
+			final Position pos = w.getPosition();
+			final Direction dir = w.getDirection();
+			if (pos == null || dir == null) continue;
+
+			final int size = w.size();
+			final int x = pos.getX();
+			final int y = pos.getY();
+
+			// TODO getCollision
+		}
+
+		return result;
 	}
 }

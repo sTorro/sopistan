@@ -99,94 +99,102 @@ public final class Word {
 		return value.length();
 	}
 
+	public boolean isSameCharAt(final char ch, final int index) {
+		if (index > this.size()) return false;
+		return this.getChars()[index] == ch;
+	}
+
 	/**
-	 * TODO if there are a collision check for equals characters !
-	 * 
-	 * check this method dude
+	 * TODO doc collides
 	 * 
 	 * @param input
-	 * @return
+	 * @return The position where collides, null if no collision
 	 */
-	public boolean collides(final Word input) {
+	public Position collides(final Word input) {
 		final Position inPos = input.getPosition();
 		final Direction inDir = input.getDirection();
+		Position collision = null; // the result
 
 		if (inPos != null && inDir != null) {
 			if (inPos.equals(this.position)) {
-				// same initial position, check first char and direction
-				if (input.getChars()[0] == this.getChars()[0] && !inDir.equals(this.direction)) {
-					// no collision
-					return false;
-				}
-			} else {
-				// Initial positions are different
-				int inX = inPos.getX();
-				int inY = inPos.getY();
+				if (inDir.equals(this.direction)) collision = inPos; // same position and direction
+
+				// Same initial position, check first char and direction
+				// if (isSameCharAt(input.getChars()[0], 0)) return false;
+				//
+				// if (input.getChars()[0] == this.getChars()[0]) {
+				// // no collision
+				// return false;
+				// }
+
+			} else { // Initial positions are different, do the magic
+				final int inX = inPos.getX();
+				final int inY = inPos.getY();
+				final int size = input.size();
 
 				switch (inDir) {
 					case Up:
-						for (int y = 0; y < Position.MAX_Y; y++) {
+						for (int y = 0; y < size; y++) {
 							Position temp = new Position(inX, inY + y);
-							if (temp.equals(this.position)) return true;
+							if (temp.equals(this.position)) collision = temp; // it collides
 						}
 						break;
 
 					case Down:
-						for (int y = 0; y < Position.MAX_Y; y++) {
+						for (int y = 0; y < size; y++) {
 							Position temp = new Position(inX, inY - y);
-							if (temp.equals(this.position)) return true;
+							if (temp.equals(this.position)) collision = temp;
 						}
 						break;
 
 					case Left:
-						for (int x = 0; x < Position.MAX_X; x++) {
+						for (int x = 0; x < size; x++) {
 							Position temp = new Position(inX - x, inY);
-							if (temp.equals(this.position)) return true; // it collides
+							if (temp.equals(this.position)) collision = temp;
 						}
 						break;
 
 					case Right:
-						for (int x = 0; x < Position.MAX_X; x++) {
+						for (int x = 0; x < size; x++) {
 							Position temp = new Position(inX + x, inY);
-							if (temp.equals(this.position)) return true; // it collides
+							if (temp.equals(this.position)) collision = temp;
 						}
 						break;
 
 					case UpLeft:
-						for (int x = 0, y = 0; x < Position.MAX_X && y < Position.MAX_Y; x++, y++) {
+						for (int x = 0, y = 0; x < size && y < size; x++, y++) {
 							Position temp = new Position(inX - x, inY + y);
-							if (temp.equals(this.position)) return true; // it collides
+							if (temp.equals(this.position)) collision = temp;
 						}
 						break;
 
 					case UpRight:
-						for (int x = 0, y = 0; x < Position.MAX_X && y < Position.MAX_Y; x++, y++) {
+						for (int x = 0, y = 0; x < size && y < size; x++, y++) {
 							Position temp = new Position(inX + x, inY + y);
-							if (temp.equals(this.position)) return true; // it collides
+							if (temp.equals(this.position)) collision = temp;
 						}
 						break;
 
 					case DownLeft:
-						for (int x = 0, y = 0; x < Position.MAX_X && y < Position.MAX_Y; x++, y++) {
+						for (int x = 0, y = 0; x < size && y < size; x++, y++) {
 							Position temp = new Position(inX - x, inY - y);
-							if (temp.equals(this.position)) return true; // it collides
+							if (temp.equals(this.position)) collision = temp;
 						}
 						break;
 
 					case DownRight:
-						for (int x = 0, y = 0; x < Position.MAX_X && y < Position.MAX_Y; x++, y++) {
+						for (int x = 0, y = 0; x < size && y < size; x++, y++) {
 							Position temp = new Position(inX + x, inY - y);
-							if (temp.equals(this.position)) return true; // it collides
+							if (temp.equals(this.position)) collision = temp;
 						}
 						break;
 
 					default: // not possible !
-						return true;
+						return new Position(0, 0);
 				}
-
 			}
 		}
 
-		return false;
+		return collision; // no collision
 	}
 }

@@ -35,6 +35,8 @@ public final class Sopistan {
 	private static Map map;
 	private List<Word> readedWords;
 
+	public static final boolean DEBUG_MODE = true;
+
 	/**
 	 * 
 	 * @param upperCase

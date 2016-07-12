@@ -1,6 +1,6 @@
 android {
-    buildToolsVersion "24.0.0"
-    compileSdkVersion 24
+    buildToolsVersion "23.0.1"
+    compileSdkVersion 20
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.torrosoft.sopistan"
         minSdkVersion 8
-        targetSdkVersion 24
+        targetSdkVersion 20
     }
 }
 

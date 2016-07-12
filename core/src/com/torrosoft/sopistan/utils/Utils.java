@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with triviazo-project.  If not, see <http://www.gnu.org/licenses/>.
  * 
- * Copyright 2016 Sergio TorrÃ³.
+ * Copyright 2016 Sergio Torró.
  */
 
 package com.torrosoft.sopistan.utils;
