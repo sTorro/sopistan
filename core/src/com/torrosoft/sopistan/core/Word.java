@@ -32,6 +32,7 @@ public final class Word {
 	private Direction direction = null;
 	private Position position = null;
 	private boolean isSetted = false;
+	private int conflict = -1;
 
 	public Word(final String input) throws Exception {
 		if (input.length() > MAX_CHARS_PER_WORD) throw new Exception() {
@@ -103,98 +104,20 @@ public final class Word {
 		if (index > this.size()) return false;
 		return this.getChars()[index] == ch;
 	}
-
-	/**
-	 * TODO doc collides
-	 * 
-	 * @param input
-	 * @return The position where collides, null if no collision
-	 */
-	public Position collides(final Word input) {
-		final Position inPos = input.getPosition();
-		final Direction inDir = input.getDirection();
-		Position collision = null; // the result
-
-		if (inPos != null && inDir != null) {
-			if (inPos.equals(this.position)) {
-				if (inDir.equals(this.direction)) collision = inPos; // same position and direction
-
-				// Same initial position, check first char and direction
-				// if (isSameCharAt(input.getChars()[0], 0)) return false;
-				//
-				// if (input.getChars()[0] == this.getChars()[0]) {
-				// // no collision
-				// return false;
-				// }
-
-			} else { // Initial positions are different, do the magic
-				final int inX = inPos.getX();
-				final int inY = inPos.getY();
-				final int size = input.size();
-
-				switch (inDir) {
-					case Up:
-						for (int y = 0; y < size; y++) {
-							Position temp = new Position(inX, inY + y);
-							if (temp.equals(this.position)) collision = temp; // it collides
-						}
-						break;
-
-					case Down:
-						for (int y = 0; y < size; y++) {
-							Position temp = new Position(inX, inY - y);
-							if (temp.equals(this.position)) collision = temp;
-						}
-						break;
-
-					case Left:
-						for (int x = 0; x < size; x++) {
-							Position temp = new Position(inX - x, inY);
-							if (temp.equals(this.position)) collision = temp;
-						}
-						break;
-
-					case Right:
-						for (int x = 0; x < size; x++) {
-							Position temp = new Position(inX + x, inY);
-							if (temp.equals(this.position)) collision = temp;
-						}
-						break;
-
-					case UpLeft:
-						for (int x = 0, y = 0; x < size && y < size; x++, y++) {
-							Position temp = new Position(inX - x, inY + y);
-							if (temp.equals(this.position)) collision = temp;
-						}
-						break;
-
-					case UpRight:
-						for (int x = 0, y = 0; x < size && y < size; x++, y++) {
-							Position temp = new Position(inX + x, inY + y);
-							if (temp.equals(this.position)) collision = temp;
-						}
-						break;
-
-					case DownLeft:
-						for (int x = 0, y = 0; x < size && y < size; x++, y++) {
-							Position temp = new Position(inX - x, inY - y);
-							if (temp.equals(this.position)) collision = temp;
-						}
-						break;
-
-					case DownRight:
-						for (int x = 0, y = 0; x < size && y < size; x++, y++) {
-							Position temp = new Position(inX + x, inY - y);
-							if (temp.equals(this.position)) collision = temp;
-						}
-						break;
-
-					default: // not possible !
-						return new Position(0, 0);
-				}
-			}
-		}
-
-		return collision; // no collision
+	
+	public int getCharIndex(final Position pos) {
+		int result = -1;
+		
+		
+		
+		return result;
+	}
+	
+	public void setConflict(final int index) {
+		this.conflict = index;
+	}
+	
+	public int getConflict() {
+		return this.conflict;
 	}
 }

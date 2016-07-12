@@ -72,8 +72,9 @@ public final class Sopistan {
 			} while (!w.isSetted());
 		}
 
-		// testing
-		map.dumpWords();
-		map.print();
+		if (DEBUG_MODE) { // testing
+			map.dumpWords();
+			map.print();
+		}
 	}
 }

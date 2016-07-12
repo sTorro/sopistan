@@ -13,16 +13,15 @@
  * You should have received a copy of the GNU General Public License
  * along with triviazo-project.  If not, see <http://www.gnu.org/licenses/>.
  * 
- * Copyright 2016 Sergio Torró.
+ * Copyright 2016 Sergio TorrÃ³.
  */
 
 package com.torrosoft.sopistan;
 
-import android.os.Bundle;
-
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.torrosoft.sopistan.SopistanMain;
+
+import android.os.Bundle;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

@@ -56,7 +56,18 @@ public final class Map {
 	 * @return
 	 */
 	public boolean isSameCharAt(final char ch, final Position pos) {
+		if (Sopistan.DEBUG_MODE) {
+			char mapCh = Character.toLowerCase(map[pos.getX()][pos.getY()]);
+			char inCh = Character.toLowerCase(ch);
+			if (mapCh == inCh) System.out.println("char = " + mapCh);
+			return mapCh == inCh;
+		}
+		
 		return map[pos.getX()][pos.getY()] == ch;
+	}
+
+	public char getCharAt(final Position pos) {
+		return map[pos.getX()][pos.getY()];
 	}
 
 	/**
@@ -155,22 +166,19 @@ public final class Map {
 				if (checkMapBoundaries(input)) {
 					// Check inserted words
 					if (words.size() > 0) {
-						for (final Word insertedWord : words) {
-							Position collision = insertedWord.collides(input);
-							if (collision == null) {
-								// no collision !
+						Position collision = getCollision(input);
+						if (collision == null) {
+							// no collision !
+							insertWord(input);
+							result = true;
+						} else {
+							// check if the char is the same in the given position
+							int conflict = input.getConflict();
+							System.out.println("conflict = " + conflict);
+							if (isSameCharAt(input.getChars()[conflict], collision)) {
+								System.out.println("But inserted ...");
 								insertWord(input);
 								result = true;
-								break;
-							} else {
-								// check if the char is the same in the given position
-								// if (isSameCharAt(insertedWord.getChars(), collision)) {
-								// insertWord(input);
-								// result = true;
-								// break;
-								// }
-
-								System.out.println("COLLIDES !");
 							}
 						}
 					} else {
@@ -186,6 +194,7 @@ public final class Map {
 
 	private boolean insertWord(final Word input) {
 		String word = input.toString();
+		
 		if (Sopistan.DEBUG_MODE) {
 			word = isUpperCase() ? input.toString().toLowerCase() : input.toString().toUpperCase();
 		}
@@ -250,8 +259,13 @@ public final class Map {
 			return false;
 		}
 
-		// input.set(true);
 		words.add(input);
+		
+		if (Sopistan.DEBUG_MODE) {
+			System.out.println("Inserted: " + input.toString());
+			print(); // map
+		}
+		
 		return true;
 	}
 
@@ -269,25 +283,32 @@ public final class Map {
 	}
 
 	/**
+	 * TODO doc getCollision
 	 * 
 	 * @param input
-	 * @return The p
+	 * @return The position of the collision, null if not collides
 	 */
 	private Position getCollision(final Word input) {
 		Position result = null;
+		ArrayList<Position> inputPositions = Position.getPositions(input);
 
-		for (final Word w : words) {
+		for (final Word w : words) { // check the inserted words
 			// check same word ?
+			//if (w.equals(input)) continue;
+			
+			ArrayList<Position> positions = Position.getPositions(w);
+			int conflict = -1;
+			for (Position p : positions) {
+				conflict++;
+				if (inputPositions.contains(p)) {
+					System.out.println(input.toString() + " collides with " + w.toString());
+					result = p;
+					input.setConflict(conflict);
+					break;
+				}
+			}
 
-			final Position pos = w.getPosition();
-			final Direction dir = w.getDirection();
-			if (pos == null || dir == null) continue;
-
-			final int size = w.size();
-			final int x = pos.getX();
-			final int y = pos.getY();
-
-			// TODO getCollision
+			if (result != null) break;
 		}
 
 		return result;

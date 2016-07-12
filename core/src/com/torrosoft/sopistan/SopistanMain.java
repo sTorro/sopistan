@@ -34,7 +34,7 @@ import com.torrosoft.sopistan.gui.graphics.Strip;
 import com.torrosoft.sopistan.input.FingerHandler;
 
 /**
- * 
+ * Main entry.
  * @author storro
  */
 public class SopistanMain extends ApplicationAdapter {
