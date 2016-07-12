@@ -77,7 +77,7 @@ public final class Position {
 	}
 
 	public static Position getRandomPosition() {
-		return new Position(Utils.randomInt(0, MAX_X), Utils.randomInt(0, MAX_Y));
+		return new Position(Utils.randomInt(MIN_X, MAX_X), Utils.randomInt(MIN_Y, MAX_Y));
 	}
 
 	// static ?
@@ -129,56 +129,56 @@ public final class Position {
 		
 		switch (dir) {
 			case Up:
-				for (int y = 0; y < size; y++) {
+				for (int y = MIN_Y; y < size; y++) {
 					Position temp = new Position(inX, inY + y);
 					result.add(temp);
 				}
 				break;
 
 			case Down:
-				for (int y = 0; y < size; y++) {
+				for (int y = MIN_Y; y < size; y++) {
 					Position temp = new Position(inX, inY - y);
 					result.add(temp);
 				}
 				break;
 
 			case Left:
-				for (int x = 0; x < size; x++) {
+				for (int x = MIN_X; x < size; x++) {
 					Position temp = new Position(inX - x, inY);
 					result.add(temp);
 				}
 				break;
 
 			case Right:
-				for (int x = 0; x < size; x++) {
+				for (int x = MIN_X; x < size; x++) {
 					Position temp = new Position(inX + x, inY);
 					result.add(temp);
 				}
 				break;
 
 			case UpLeft:
-				for (int x = 0, y = 0; x < size && y < size; x++, y++) {
+				for (int x = MIN_X, y = MIN_Y; x < size && y < size; x++, y++) {
 					Position temp = new Position(inX - x, inY + y);
 					result.add(temp);
 				}
 				break;
 
 			case UpRight:
-				for (int x = 0, y = 0; x < size && y < size; x++, y++) {
+				for (int x = MIN_X, y = MIN_Y; x < size && y < size; x++, y++) {
 					Position temp = new Position(inX + x, inY + y);
 					result.add(temp);
 				}
 				break;
 
 			case DownLeft:
-				for (int x = 0, y = 0; x < size && y < size; x++, y++) {
+				for (int x = MIN_X, y = MIN_Y; x < size && y < size; x++, y++) {
 					Position temp = new Position(inX - x, inY - y);
 					result.add(temp);
 				}
 				break;
 
 			case DownRight:
-				for (int x = 0, y = 0; x < size && y < size; x++, y++) {
+				for (int x = MIN_X, y = MIN_Y; x < size && y < size; x++, y++) {
 					Position temp = new Position(inX + x, inY - y);
 					result.add(temp);
 				}
