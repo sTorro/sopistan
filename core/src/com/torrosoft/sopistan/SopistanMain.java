@@ -118,7 +118,7 @@ public class SopistanMain extends ApplicationAdapter {
                 Sprite spriteTmp = new Sprite(spriteAlphabet.get(
                                         String.valueOf(
                                             com.torrosoft.sopistan.core.Map.map[x][y]
-                                        )
+                                        ).toUpperCase()
                 )) ;
                 spriteTmp.setPosition(newPosX, newPosY);
                 group_sprites.add( spriteTmp );
