@@ -1,7 +1,7 @@
 /*
  * File name: Map.java
  * This file is part of Sopistan project.
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation; either version 3 of the License, or (at your
@@ -9,10 +9,10 @@
  * it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with triviazo-project.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * Copyright 2016 Sergio Torró.
  */
 
@@ -27,19 +27,19 @@ import com.torrosoft.sopistan.utils.Utils;
 
 /**
  * TODO
- * 
+ *
  * @author storro
  */
 public final class Map {
 	public static final short MAX_WORDS = 10;
 
 	private List<Word> words; // list of inserted words
-	private char[][] map = new char[Position.MAX_X][Position.MAX_Y];
+	public static char[][] map = new char[Position.MAX_X][Position.MAX_Y];
 	private boolean upperCase;
 
 	/**
 	 * Main and unique ctor.
-	 * 
+	 *
 	 * @param upper
 	 *            Just upper case words or not.
 	 */
@@ -50,7 +50,7 @@ public final class Map {
 
 	/**
 	 * TODO doc isSameChar
-	 * 
+	 *
 	 * @param ch
 	 * @param pos
 	 * @return
@@ -62,7 +62,7 @@ public final class Map {
 			if (mapCh == inCh) System.out.println("char = " + mapCh);
 			return mapCh == inCh;
 		}
-		
+
 		return map[pos.getX()][pos.getY()] == ch;
 	}
 
@@ -73,11 +73,11 @@ public final class Map {
 	/**
 	 * This method checks if the given word can be inserted (ignores other words, just boundaries!).
 	 * The input Word have to have a valid Direction and Position.
-	 * 
+	 *
 	 * @see Word
 	 * @see Direction
 	 * @see Position
-	 * 
+	 *
 	 * @param word
 	 *            The Word to check in the map.
 	 * @return True if the given Word can be inserted in map. False otherwise.
@@ -124,7 +124,7 @@ public final class Map {
 
 	/**
 	 * It ramdomizes the map char array with ramdom chars (just English).
-	 * 
+	 *
 	 * @see Utils
 	 */
 	public void randomize() {
@@ -154,7 +154,7 @@ public final class Map {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param input
 	 * @return
 	 */
@@ -175,11 +175,19 @@ public final class Map {
 							// check if the char is the same in the given position
 							int conflict = input.getConflict();
 							System.out.println("conflict = " + conflict);
-							if (isSameCharAt(input.getChars()[conflict], collision)) {
-								System.out.println("But inserted ...");
+                            try{
+                                if (isSameCharAt(input.getChars()[conflict], collision)) {
+                                    System.out.println("But inserted ...");
+                                    insertWord(input);
+                                    result = true;
+                                }
+                            }
+                            catch(Exception e){
+                                System.out.println("Error: Map line:179 " + e.getMessage());
+                                System.out.println("But inserted ...");
 								insertWord(input);
-								result = true;
-							}
+								result = false;
+                            }
 						}
 					} else {
 						insertWord(input);
@@ -194,7 +202,7 @@ public final class Map {
 
 	private boolean insertWord(final Word input) {
 		String word = input.toString();
-		
+
 		if (Sopistan.DEBUG_MODE) {
 			word = isUpperCase() ? input.toString().toLowerCase() : input.toString().toUpperCase();
 		}
@@ -260,12 +268,12 @@ public final class Map {
 		}
 
 		words.add(input);
-		
+
 		if (Sopistan.DEBUG_MODE) {
 			System.out.println("Inserted: " + input.toString());
 			print(); // map
 		}
-		
+
 		return true;
 	}
 
@@ -284,7 +292,7 @@ public final class Map {
 
 	/**
 	 * TODO doc getCollision
-	 * 
+	 *
 	 * @param input
 	 * @return The position of the collision, null if not collides
 	 */
@@ -295,7 +303,7 @@ public final class Map {
 		for (final Word w : words) { // check the inserted words
 			// check same word ?
 			//if (w.equals(input)) continue;
-			
+
 			ArrayList<Position> positions = Position.getPositions(w);
 			int conflict = -1;
 			for (Position p : positions) {
